@@ -1,8 +1,9 @@
 import aiohttp
 import asyncio
+import sys
 
 
-def bing_fetch(key: str, search_term: str, count: str):
+async def bing_fetch(key: str, search_term: str, count: str):
     SEARCH_URL = "https://api.bing.microsoft.com/v7.0/images/search"
 
     headers = {"Ocp-Apim-Subscription-Key" : key}
@@ -23,11 +24,11 @@ def bing_fetch(key: str, search_term: str, count: str):
         
         except aiohttp.ClientError as e:
             print(f"HTTP request failed: {e}")
-            break
+            sys.exit()
         
         except KeyError as e:
             print(f"Unexpected response format: {e}")
-            break
+            sys.exit()
 
     return image_urls
 
@@ -53,21 +54,21 @@ async def google_fetch(key: str, engine_id: str, search_term: str, count: int):
                     response.raise_for_status()
                     response_data = await response.json()
                     items = response_data["items"]
-                    
+
                     if not items:
                         break
-
+                        
                     image_urls.extend([img["link"] for img in items])
                     
                     start += 10
             
             except aiohttp.ClientError as e:
                 print(f"HTTP request failed: {e}")
-                break
+                sys.exit()
             
             except KeyError as e:
                 print(f"Unexpected response format: {e}")
-                break
+                sys.exit()
 
     return image_urls
 
@@ -89,10 +90,10 @@ async def hugging_face_fetch(search_term: str, count: int):
         
         except aiohttp.ClientError as e:
             print(f"HTTP request failed: {e}")
-            break
+            sys.exit()
         
         except KeyError as e:
             print(f"Unexpected response format: {e}")
-            break                
+            sys.exit()                
     
     return image_urls
