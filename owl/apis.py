@@ -74,12 +74,13 @@ async def google_fetch(key: str, engine_id: str, search_term: str, count: int):
 
 async def hugging_face_fetch(search_term: str, count: int):
     SEARCH_URL = "https://huggingpics-api-server.fly.dev/images/search"
+    
     params = {
         "q": search_term,
         "license": "public",
         "imageType": "photo",
         "count": count
-    }
+        }
     
     async with aiohttp.ClientSession() as session:
         try:
