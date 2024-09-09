@@ -4,6 +4,8 @@ import asyncio
 from PIL import Image
 from io import BytesIO
 import sys
+from .apis import google_fetch, hugging_face_fetch, bing_fetch
+from .utils import download_image
 
 class Fetcher:
     def __init__(self, api, terms, **kwargs):
@@ -40,5 +42,13 @@ class Fetcher:
         
         return self.urls
 
-    async def download(self, dir):
-        pass
+    async def download_images(self, download_dir):
+        if not os.path.exists(download_dir):
+            os.makedirs(download_dir)
+        
+        async with aiohttp.ClientSession() as session:
+            tasks = []
+            for idx, url in enumerate(self.urls):
+                img_path = os.path.join(download_dir, f"image_{idx + 1}.jpg")  # Assuming jpg format for simplicity
+                tasks.append(download_image(session, url, img_path))
+            await asyncio.gather(*tasks)
