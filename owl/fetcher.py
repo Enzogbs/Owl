@@ -7,7 +7,7 @@ from utils import download_image
 import math
 
 class Fetcher:
-    def __init__(self, api: str, terms: list[str], **kwargs): -> dict[str, str]
+    def __init__(self, api, terms, **kwargs):
         self.api = api
         self.terms = terms
         self.key = kwargs.get("key")
@@ -31,17 +31,17 @@ class Fetcher:
 
         for term in self.terms:
         	if self.api == "hugging_face":
-        		urls = fetcher(term, count_per_class)
+        		urls, metadata = fetcher(term, count_per_class)
         	elif self.api == "google":
-        		urls = fetcher(self.key, self.engine_id, term, count_per_class)
+        		urls, metadata = fetcher(self.key, self.engine_id, term, count_per_class)
         	elif self.api == "bing":
-        		urls = fetcher(self.key, term, count_per_class)
+        		urls, metadata = fetcher(self.key, term, count_per_class)
 
         	self.urls_dict[term] = urls
         
-        return self.urls_dict
+        return self.urls_dict, metadata
 
-    def download(self, download_dir: str, organize=True, numeric_classes=True, split=None, resize=None, verbose=False):
+    def download(self, download_dir, organize=True, numeric_classes=True, split=None, resize=None, verbose=False):
 	    total_count = 0
 	    failed_count = 0
 	    
@@ -114,6 +114,8 @@ class Fetcher:
 	    print(f"Total images downloaded: {total_count}")
 	    print(f"Images failed to download: {failed_count}")
 
+
 fetcher = Fetcher(api="hugging_face", terms=["cat", "dog", "monkey"])
-urls = fetcher.fetch(30)
-fetcher.download(download_dir="C:\\Users\\enzog\\PycharmProjects\\PYTHON\\Owl\\images", organize=True, numeric_classes=True, split=None, resize=(224, 224), verbose=True)
+urls, metadata = fetcher.fetch(30)
+print(metadata[0])
+fetcher.download(download_dir="C:\\Users\\enzog\\PycharmProjects\\PYTHON\\Owl\\images", organize=True, numeric_classes=True, split=(70, 20, 10), resize=(224, 224), verbose=False)
