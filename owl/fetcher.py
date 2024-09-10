@@ -4,6 +4,7 @@ from io import BytesIO
 import sys
 from apis import google_fetch, hugging_face_fetch, bing_fetch
 from utils import download_image
+import math
 
 class Fetcher:
     def __init__(self, api: str, terms: list[str], **kwargs): -> dict[str, str]
