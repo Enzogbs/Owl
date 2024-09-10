@@ -112,3 +112,7 @@ class Fetcher:
 	    print("Downloads finished")
 	    print(f"Total images downloaded: {total_count}")
 	    print(f"Images failed to download: {failed_count}")
+
+fetcher = Fetcher(api="hugging_face", terms=["cat", "dog", "monkey"])
+urls = fetcher.fetch(30)
+fetcher.download(download_dir="C:\\Users\\enzog\\PycharmProjects\\PYTHON\\Owl\\images", organize=True, numeric_classes=True, split=None, resize=(224, 224), verbose=True)
