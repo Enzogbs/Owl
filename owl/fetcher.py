@@ -12,6 +12,7 @@ class Fetcher:
         self.terms = terms
         self.key = kwargs.get("key")
         self.engine_id = kwargs.get("engine_id")
+        self.metadata = kwargs.get("metadata")
 
     def fetch(self, count_per_class=100):
         self.urls_dict = {}
@@ -39,7 +40,10 @@ class Fetcher:
 
         	self.urls_dict[term] = urls
         
-        return self.urls_dict, metadata
+        if self.metadata:
+        	return self.urls_dict, metadata
+        else:
+        	return self.urls_dict
 
     def download(self, download_dir, organize=True, numeric_classes=True, split=None, resize=None, verbose=False):
 	    total_count = 0
@@ -114,8 +118,9 @@ class Fetcher:
 	    print(f"Total images downloaded: {total_count}")
 	    print(f"Images failed to download: {failed_count}")
 
-# Usage Exemple
-fetcher = Fetcher(api="hugging_face", terms=["cat", "dog", "monkey"])
+
+# Usage example
+fetcher = Fetcher(api="hugging_face", terms=["cat", "dog", "monkey"], metadata=True)
 urls, metadata = fetcher.fetch(30)
 print(metadata[0])
 fetcher.download(download_dir="C:\\Users\\enzog\\PycharmProjects\\PYTHON\\Owl\\images", organize=True, numeric_classes=True, split=(70, 20, 10), resize=(224, 224), verbose=False)
