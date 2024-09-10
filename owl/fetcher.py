@@ -114,7 +114,7 @@ class Fetcher:
 	    print(f"Total images downloaded: {total_count}")
 	    print(f"Images failed to download: {failed_count}")
 
-
+# Usage Exemple
 fetcher = Fetcher(api="hugging_face", terms=["cat", "dog", "monkey"])
 urls, metadata = fetcher.fetch(30)
 print(metadata[0])
