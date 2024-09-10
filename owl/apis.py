@@ -35,6 +35,7 @@ def google_fetch(key: str, engine_id: str, search_term: str, count: int):
 		}
 	
 	image_urls = []
+	metadata = []
 	start = 1
 
 	while len(image_urls) < count:
@@ -50,6 +51,7 @@ def google_fetch(key: str, engine_id: str, search_term: str, count: int):
 				break
 
 			image_urls.extend([img["link"] for img in items])
+			metadata.extend([img for img in items])
 
 			start += 10
 
@@ -57,7 +59,7 @@ def google_fetch(key: str, engine_id: str, search_term: str, count: int):
 			print("Failed to fetch images")
 			continue
 
-	return image_urls		
+	return image_urls, metadata		
 	
 
 def hugging_face_fetch(search_term: str, count: int):
@@ -75,8 +77,9 @@ def hugging_face_fetch(search_term: str, count: int):
     	response.raise_for_status()
     	response_data = response.json()
     	image_urls = [img["thumbnailUrl"] for img in response_data["value"]]
+    	metadata = [img for img in response_data["value"]]
 
     except Exception as e:
     	print("Failed to fetch images")
 
-    return image_urls
+    return image_urls, metadata
