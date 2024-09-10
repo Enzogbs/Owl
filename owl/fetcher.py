@@ -6,7 +6,7 @@ from apis import google_fetch, hugging_face_fetch, bing_fetch
 from utils import download_image
 
 class Fetcher:
-    def __init__(self, api, terms, **kwargs):
+    def __init__(self, api: str, terms: list[str], **kwargs): -> dict[str, str]
         self.api = api
         self.terms = terms
         self.key = kwargs.get("key")
@@ -40,7 +40,7 @@ class Fetcher:
         
         return self.urls_dict
 
-    def download(self, download_dir, organize=True, numeric_classes=True, split=None, resize=None, verbose=False):
+    def download(self, download_dir: str, organize=True, numeric_classes=True, split=None, resize=None, verbose=False):
 	    total_count = 0
 	    failed_count = 0
 	    
