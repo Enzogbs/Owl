@@ -2,8 +2,8 @@ import os
 from PIL import Image
 from io import BytesIO
 import sys
-from .apis import google_fetch, hugging_face_fetch, bing_fetch
-from .utils import download_image
+from apis import google_fetch, hugging_face_fetch, bing_fetch
+from utils import download_image
 
 class Fetcher:
     def __init__(self, api, terms, **kwargs):
